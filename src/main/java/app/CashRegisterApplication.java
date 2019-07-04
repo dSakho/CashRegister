@@ -4,10 +4,11 @@ import config.HelloWorldConfiguration;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import routes.HelloWorldRoute;
 
-public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
+public class CashRegisterApplication extends Application<HelloWorldConfiguration> {
     public static void main(String[] args) throws Exception {
-        new HelloWorldApplication().run(args);
+        new CashRegisterApplication().run(args);
     }
 
     @Override
@@ -19,11 +20,15 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
         // nothing to do yet
     }
-
+    
     @Override
     public void run(HelloWorldConfiguration configuration,
                     Environment environment) {
-        // nothing to do yet
+        final HelloWorldRoute resource = new HelloWorldRoute(
+            configuration.getTemplate(),
+            configuration.getDefaultName()
+        );
+        environment.jersey().register(resource);
     }
 
 }
