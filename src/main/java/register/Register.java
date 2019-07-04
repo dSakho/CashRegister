@@ -1,4 +1,4 @@
-package registerApplication;
+package register;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-
-import registerApplication.Database;
 
 
 public class Register {

@@ -1,4 +1,4 @@
-package registerApplication;
+package register;
 
 import java.math.BigDecimal;
 
