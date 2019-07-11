@@ -10,11 +10,11 @@ git clone https://github.com/dSakho/CashRegister.git
 
 ### Drop Wizard
 This applications main dependency in the `pom.xml` file is the `dropwizard-core` dependency. 
-[DropWizard]([https://www.dropwizard.io/1.3.12/docs/index.html](https://www.dropwizard.io/1.3.12/docs/index.html)) is a set of Java libraries that make it easy to build and develop RESTful web services. RESTful web services allow functionality of programs to be exposed over the web through HTTP.
+[DropWizard](https://www.dropwizard.io/1.3.12/docs/index.html) is a set of Java libraries that make it easy to build and develop RESTful web services. RESTful web services allow functionality of programs to be exposed over the web through HTTP.
 Please check these vides for more on RESTful web services:
-* [What is an API?]([https://www.youtube.com/watch?v=s7wmiS2mSXY](https://www.youtube.com/watch?v=s7wmiS2mSXY))
-* [REST API & Restful Web Services Explained]([https://www.youtube.com/watch?v=LooL6_chvN4](https://www.youtube.com/watch?v=LooL6_chvN4))
-* [REST API Concepts & Examples]([https://www.youtube.com/watch?v=7YcW25PHnAA](https://www.youtube.com/watch?v=7YcW25PHnAA))
+* [What is an API?](https://www.youtube.com/watch?v=s7wmiS2mSXY](https://www.youtube.com/watch?v=s7wmiS2mSXY)
+* [REST API & Restful Web Services Explained](https://www.youtube.com/watch?v=LooL6_chvN4)
+* [REST API Concepts & Examples](https://www.youtube.com/watch?v=7YcW25PHnAA)
 
 Also some articles:
 * 
@@ -27,7 +27,7 @@ Makefiles are a great place to start when you enter a brand new repo. All the wo
 Noticed how much your project has grown since you gave it to me. It now uses Apache Maven as a build tool to not only manage dependencies but to also assist in running your project with plugins and automation. Every Maven project has a top-level `pom.xml` file which lists the dependencies that are needed to run the application and bundles everything for you. 
 * [Maven in 5 minutes](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 * [Maven Project Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
-* [Tips & Tricks]([https://dzone.com/articles/10-effective-tips-on-using-maven)
+* [Tips & Tricks](https://dzone.com/articles/10-effective-tips-on-using-maven)
 
  ### Local Development
  Requirements for building this project on a terminal:
