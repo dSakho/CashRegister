@@ -4,7 +4,7 @@ import config.HelloWorldConfiguration;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import routes.HelloWorldRoute;
+import resources.HelloWorldResource;
 
 public class CashRegisterApplication extends Application<HelloWorldConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -24,7 +24,7 @@ public class CashRegisterApplication extends Application<HelloWorldConfiguration
     @Override
     public void run(HelloWorldConfiguration configuration,
                     Environment environment) {
-        final HelloWorldRoute resource = new HelloWorldRoute(
+        final HelloWorldResource resource = new HelloWorldResource(
             configuration.getTemplate(),
             configuration.getDefaultName()
         );

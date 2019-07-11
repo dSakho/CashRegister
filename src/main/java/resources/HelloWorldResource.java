@@ -1,4 +1,4 @@
-package routes;
+package resources;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -15,12 +15,12 @@ import models.Saying;
 
 @Path("/hello-world")
 @Produces(MediaType.APPLICATION_JSON)
-public class HelloWorldRoute {
+public class HelloWorldResource {
     private final String template;
     private final String defaultName;
     private final AtomicLong counter;
 
-    public HelloWorldRoute(String template, String defaultName) {
+    public HelloWorldResource(String template, String defaultName) {
         this.template = template;
         this.defaultName = defaultName;
         this.counter = new AtomicLong();

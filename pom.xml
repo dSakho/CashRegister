@@ -6,7 +6,7 @@
 
 	<groupId>com.github.cash-register</groupId>
 	<artifactId>cash-register-api</artifactId>
-	<version>0.1</version>
+	<version>0.0.1</version>
 	<name>Cash Register App Api Java Excample</name>
 
 	<properties>
