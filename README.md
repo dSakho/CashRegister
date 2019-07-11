@@ -1,6 +1,13 @@
 # Cash Register
 Mimics a cash register in a normal store. The goal here is to convert the Cash Register application you've created that prompts a user for some input, and turn it into a web application that exposes functionality that is capable of handling fetching data as well as manipulating and mutating data.
 
+## Pull down this repository with Git
+You may or may not have `Git` installed on your machine. Run `make tools` to see if you do.
+And if you do, then
+```
+git clone https://github.com/dSakho/CashRegister.git
+```
+
 ### Drop Wizard
 This applications main dependency in the `pom.xml` file is the `dropwizard-core` dependency. 
 [DropWizard]([https://www.dropwizard.io/1.3.12/docs/index.html](https://www.dropwizard.io/1.3.12/docs/index.html)) is a set of Java libraries that make it easy to build and develop RESTful web services. RESTful web services allow functionality of programs to be exposed over the web through HTTP.
