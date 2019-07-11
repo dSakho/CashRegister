@@ -10,7 +10,20 @@ git clone https://github.com/dSakho/CashRegister.git
 
 ### Drop Wizard
 This applications main dependency in the `pom.xml` file is the `dropwizard-core` dependency. 
-[DropWizard](https://www.dropwizard.io/1.3.12/docs/index.html) is a set of Java libraries that make it easy to build and develop RESTful web services. RESTful web services allow functionality of programs to be exposed over the web through HTTP.
+[DropWizard](https://www.dropwizard.io/1.3.12/docs/index.html) is a set of Java libraries that make it easy to build and develop RESTful web services. 
+With DropWizard you get a ton of production ready features for free out-of-the-box. 
+Stuff such as
+* An embadded HTTP web server (Jetty)
+* Jersey for REST
+* Jackson for JSON
+* Metrics
+* Logging
+* Health Check
+* Administrator Port
+Please check out the documentation as well since this is also my first DropWizard application :D.
+
+### RESTful Web Services (That Fire)
+RESTful web services allow functionality of programs to be exposed over the web through HTTP.
 Please check these vides for more on RESTful web services:
 * [What is an API?](https://www.youtube.com/watch?v=s7wmiS2mSXY)
 * [REST API & Restful Web Services Explained](https://www.youtube.com/watch?v=LooL6_chvN4)
