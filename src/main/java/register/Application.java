@@ -6,11 +6,14 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Application {
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 		
+
+		ArrayList<String> history = new ArrayList<>();
 		Authorized crew = new Authorized();
 		boolean runApp = true;
 		InputStreamReader reader = new InputStreamReader(System.in, StandardCharsets.UTF_8);
@@ -36,6 +39,7 @@ public class Application {
 			case "1":
 				
 /////////////// ADD MONEY TO REGISTER
+				System.out.println(reg.getRegTotal());
 				System.out.println("Amount to be added:\t");
 				String addAmountToRegInput = buff.readLine();
 				if (addAmountToRegInput.matches("^[0-9]+$") || addAmountToRegInput.matches("^[0-9]*.[0-9]{2}$")) {
@@ -50,13 +54,24 @@ public class Application {
 			case "2":
 				
 /////////////// REMOVE MONEY FROM REGISTER
+				System.out.println(reg.getRegTotal());
+				System.out.println("Amount to be removed:\t");
+				String subAmountToRegInput = buff.readLine();
+				if (subAmountToRegInput.matches("^[0-9]+$") || subAmountToRegInput.matches("^[0-9]*.[0-9]{2}$")) {
+					BigDecimal tempNum = reg.getRegTotal();
+					BigDecimal amountTaken = new BigDecimal(subAmountToRegInput);
+					if(tempNum.compareTo(amountTaken) == -1)
+						break;
+					reg.setNewRegisterTotal(tempNum.subtract(amountTaken));
+					System.out.println("Total in Register\t$" + reg.getRegTotal());
+				}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				break;
 				
 			case "3":
 			
 /////////////// LOG OUT OF REGISTER
-					if(true) {
+					if(option.contentEquals("3")) {
 						System.out.println("Goodbye");
 						runApp = false;
 						continue;
@@ -72,6 +87,13 @@ public class Application {
 				 * transaction to a database. Then create another method to query that info 
 				 * and output it.
 				 **/
+				int transaction = buff.read();
+				if(transaction < history.size() && transaction > 0)
+				{
+					reg.transactionHistory(history.get(transaction-1));
+				}
+				
+				break;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
 			case "5":
@@ -79,10 +101,24 @@ public class Application {
 				System.out.println("Total:\t$" + total.toString());
 				// Select option to pay with Cash or Card
 				genInput = buff.readLine();
+				
+				
+				
+				//////////////////////////////// Start of code for payment
+				if(genInput == "") {
+					// do this for cash
+				}
+				else if(genInput=="") {
+					// do this if its credit
+				}
+				
+				// handle the payment and return a message about a success or failure
+				reg.payForPurchase(genInput);	
+				//////////////////////////////// End of code for payment
 
-				// I think this function should handle the payment and return a message about whether it was a success or failure
-				reg.payForPurchase(genInput);
-
+				
+				
+				
 				// In theory there would some type of way to check this
 				while(reg.isOpen())
 					System.out.println("Close the drawer");
