@@ -1,6 +1,6 @@
 # CHANGELOG
  
-##7/15/19:
+## 7/15/19:
 - Updated Authorized class to handle edge cases (when the username wasn't correct it would throw a null pointer exception
 * Check transaction history by OrderID
 	--- Option 4 should show the transaction total, customer name, time and date, OrderID
