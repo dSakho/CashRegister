@@ -1,12 +1,14 @@
 package app;
 
-import config.HelloWorldConfiguration;
+import org.jdbi.v3.core.Jdbi;
+
+import config.DatabaseConfiguration;
 import io.dropwizard.Application;
+import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import resources.HelloWorldResource;
 
-public class CashRegisterApplication extends Application<HelloWorldConfiguration> {
+public class CashRegisterApplication extends Application<DatabaseConfiguration> {
     public static void main(String[] args) throws Exception {
         new CashRegisterApplication().run(args);
     }
@@ -17,17 +19,15 @@ public class CashRegisterApplication extends Application<HelloWorldConfiguration
     }
 
     @Override
-    public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
+    public void initialize(Bootstrap<DatabaseConfiguration> bootstrap) {
         // nothing to do yet
     }
     
     @Override
-    public void run(HelloWorldConfiguration configuration, Environment environment) {
-        final HelloWorldResource resource = new HelloWorldResource(
-            configuration.getTemplate(),
-            configuration.getDefaultName()
-        );
-        environment.jersey().register(resource);
+    public void run(DatabaseConfiguration configuration, Environment environment) {
+        final JdbiFactory factory = new JdbiFactory();
+        final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
+        environment.jersey().register(jdbi);
     }
 
 }
