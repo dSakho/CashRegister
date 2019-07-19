@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 7/18/19:
+- 
+
+## 7/17/19:
+- Updated transaction stage in Application.java file to
+    1. Save transactions using Register method.
+    2. Pay for purchases using Register method
+- Replaced payForPurchase method with payForCart method in Register.java
+- Created saveTransaction method in Register.java
+
 ## 7/16/19:
 - Application now read data source properties from the config file.
 

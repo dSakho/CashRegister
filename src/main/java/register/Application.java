@@ -7,12 +7,13 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Application {
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 		
-
+		Date date = new Date();
 		ArrayList<String> history = new ArrayList<>();
 		Authorized crew = new Authorized();
 		boolean runApp = true;
@@ -97,34 +98,33 @@ public class Application {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
 			case "5":
+				
+				// Begin section to scan items
+				
 				BigDecimal total = reg.scanItems();
-				System.out.println("Total:\t$" + total.toString());
-				// Select option to pay with Cash or Card
+				System.out.println("Total:\t$" + total);
+				
+				// End section to scan items
+				
+				
+				// Begin section to pay for purchase
+				
+				// Print the balance and offer payment options
+				System.out.println("Pay with Cash or Card");
 				genInput = buff.readLine();
 				
-				
-				
-				//////////////////////////////// Start of code for payment
-				if(genInput == "") {
-					// do this for cash
+				// Give the input from user to the Register object as long as the total isn't 0
+				while(!(total.compareTo(BigDecimal.ZERO)==0))
+				{
+					total = reg.payForCart(genInput, total);
+					while(reg.isOpen()) {
+						System.out.println("Close the drawer");
+					}
 				}
-				else if(genInput=="") {
-					// do this if its credit
-				}
 				
-				// handle the payment and return a message about a success or failure
-				reg.payForPurchase(genInput);	
-				//////////////////////////////// End of code for payment
+				// End section to pay for purchase
 
-				
-				
-				
-				// In theory there would some type of way to check this
-				while(reg.isOpen())
-					System.out.println("Close the drawer");
-
-				// Create another Register method for the receipt (Email, Print or Both)
-				// Maybe the Application itself should store the info from this purchase in the database
+				history.add(reg.saveTransaction());
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
 			default:
