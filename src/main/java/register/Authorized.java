@@ -13,6 +13,7 @@ public class Authorized {
 		usernamePassword.put("Dowdy", "00000");
 		usernamePassword.put("KIPP", "12345");
 		usernamePassword.put("Java", "01234");
+		usernamePassword.put("Natdizzle", "sunshinesandrainbows");
 	}
 	
 	private void addNewPerson(String name, String password) {
