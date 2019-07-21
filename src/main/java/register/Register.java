@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class Register {
@@ -37,7 +38,7 @@ public class Register {
 	
 	// Call this method when first opening the register to insert change
 	 public void setNewRegisterTotal(BigDecimal money) {
-		registerTotal = this.registerTotal.add(money);
+		this.registerTotal = money;
 	}
 	
 	// Call this method when first opening the register to store the user
@@ -119,7 +120,10 @@ public class Register {
 		return purTotal;
 	}
 	
-	
+	public void transactionHistory(String orderID) throws SQLException {
+		// Call a Database function to get the items from that order
+		mainDatabase.getOrderDetails(orderID);
+	}
 	// Cash it will call the Private payWithCash() method
 	// Credit and Debit will 
 	public boolean payForPurchase(String meth) {
@@ -148,6 +152,8 @@ public class Register {
 	public boolean isOpen() {
 		return drawerState;
 	}
-	
-
+	/**
+	public void saveTransaction(String nameOfCashier, BigDecimal transactionTotal, ArrayList<> list) {
+		
+	}**/
 }
