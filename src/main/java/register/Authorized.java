@@ -13,6 +13,7 @@ public class Authorized {
 		usernamePassword.put("Dowdy", "00000");
 		usernamePassword.put("KIPP", "12345");
 		usernamePassword.put("Java", "01234");
+		usernamePassword.put("Natdizzle", "sunshinesandrainbows");
 	}
 	
 	private void addNewPerson(String name, String password) {
@@ -20,7 +21,13 @@ public class Authorized {
 	}
 	
 	public boolean isAuthorized(String name, String password) {
-		return usernamePassword.get(name).equals(password);
+		boolean valid = false;
+		if (usernamePassword.containsKey(name) && (usernamePassword.get(name).equals(password) == true))
+		{
+			valid = true;
+			return valid;
+		}
+		return valid;
 	}
 
 }

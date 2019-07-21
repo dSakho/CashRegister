@@ -38,10 +38,49 @@ public class Database {
 		return thePrice;
 	}
 	
+	public void getOrderDetails(String orderID) throws SQLException {
+		Statement stmt = con.createStatement();
+		ResultSet orderInfo = stmt.executeQuery("SELECT * FROM Transactions WHERE `ORDER_ID` = " + orderID + ";");
+		
+		int row = 0;
+		while (orderInfo.next()) {
+			
+			if(row == 0) {
+				System.out.print("$" + orderInfo.getInt("Transaction_Total") + "\t | "); // Print the transaction total
+				System.out.print(orderInfo.getString("Customer_Name") + "\t | "); // Print the name of customer
+				System.out.print(orderID + "\t | "); // Print the orderID
+				System.out.println(orderInfo.getString("Order_Date_Time")); // Print the date and time of the order
+			}
+			System.out.print((row+1) + ". "); // 
+			System.out.print(orderInfo.getString("Product_Name") + "\t |"); // Print Name of Item
+			System.out.println(orderInfo.getDouble("Price") + "\t |"); // Print the Price of the item
+			row++;
+		}
+	}
+	
+	public void saveOrderDetails(String orderID, String customerName, FoodItems shoppingCart, String cashier, BigDecimal totalCost) {
+	/**
+	 * Create a new table to save purchases to
+	 * Save a list of the name of each item as a String
+	 * Save a list of the corresponding price of each item as a list
+	 * 
+	 * Use another table with name, price, orderID
+	 * to search for specific items later
+	 * 
+	 * Table 1: OrderID, CustomerName, Cashier, PurchaseTotal, PurchaseDateTime
+	 *				^
+	 *				|
+	 *				v 
+	 * Table 2: OrderID, Name, Price
+	 * 
+	 * The OrderID fields in both represent the same information
+	 */
+	}
 	
 	public void closeConnection() throws SQLException {
 		if(con != null)
 			con.close();
 	}
+
 }
 

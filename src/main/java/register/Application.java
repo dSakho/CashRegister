@@ -6,11 +6,15 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Application {
 	
-	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
+		
+		Date date = new Date();
+		ArrayList<String> history = new ArrayList<>();
 		Authorized crew = new Authorized();
 		boolean runApp = true;
 		InputStreamReader reader = new InputStreamReader(System.in, StandardCharsets.UTF_8);
@@ -29,38 +33,104 @@ public class Application {
 
 		while(runApp) {
 
-			String inputNewRegTotal = buff.readLine();
-			if (inputNewRegTotal.matches("^[0-9]+$") || inputNewRegTotal.matches("^[0-9]*.[0-9]+$")) {
-				BigDecimal amountAdded = new BigDecimal(inputNewRegTotal);
-				reg.setNewRegisterTotal(amountAdded);
-			}
-			
-			BigDecimal total = reg.scanItems();
-			System.out.println("Total:\t$" + total.toString());
-				
-			// Select option to pay with Cash or Card
-			genInput = buff.readLine();
-			
-			// I think this function should handle the payment and return a message about whether it was a success or failure
-			reg.payForPurchase(genInput);
+			System.out.println("Choose a function");
+			String option = buff.readLine();
 
-			// In theory there would some type of way to check this
-			while(reg.isOpen())
-				System.out.println("Close the drawer");
+			switch (option) {
+			case "1":
+				
+/////////////// ADD MONEY TO REGISTER
+				System.out.println(reg.getRegTotal());
+				System.out.println("Amount to be added:\t");
+				String addAmountToRegInput = buff.readLine();
+				if (addAmountToRegInput.matches("^[0-9]+$") || addAmountToRegInput.matches("^[0-9]*.[0-9]{2}$")) {
+					BigDecimal tempNum = reg.getRegTotal();
+					BigDecimal amountAdded = new BigDecimal(addAmountToRegInput);
+					reg.setNewRegisterTotal(amountAdded.add(tempNum));
+					System.out.println("Total in Register\t$" + reg.getRegTotal());
+				}
+				break;		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			case "2":
+				
+/////////////// REMOVE MONEY FROM REGISTER
+				System.out.println(reg.getRegTotal());
+				System.out.println("Amount to be removed:\t");
+				String subAmountToRegInput = buff.readLine();
+				if (subAmountToRegInput.matches("^[0-9]+$") || subAmountToRegInput.matches("^[0-9]*.[0-9]{2}$")) {
+					BigDecimal tempNum = reg.getRegTotal();
+					BigDecimal amountTaken = new BigDecimal(subAmountToRegInput);
+					if(tempNum.compareTo(amountTaken) == -1)
+						break;
+					reg.setNewRegisterTotal(tempNum.subtract(amountTaken));
+					System.out.println("Total in Register\t$" + reg.getRegTotal());
+				}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				break;
+				
+			case "3":
 			
-			// Create another Register method for the receipt (Email, Print or Both)
-			// Maybe the Application itself should store the info from this purchase in the database
+/////////////// LOG OUT OF REGISTER
+					if(option.contentEquals("3")) {
+						System.out.println("Goodbye");
+						runApp = false;
+						continue;
+						}
+					break;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
-			genInput = buff.readLine();
-			if(genInput.contentEquals("CLOSE DRAWER")) {
-				runApp = false;
-				System.out.println("Goodbye");
+			case "4":
+
+//////////////// SEE TRANSACTION HISTORY
+				/**
+				 * I need to add a method in the Register class to add info about each
+				 * transaction to a database. Then create another method to query that info 
+				 * and output it.
+				 **/
+				int transaction = buff.read();
+				if(transaction < history.size() && transaction > 0)
+				{
+					reg.transactionHistory(history.get(transaction-1));
+				}
+				
+				break;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+			case "5":
+				
+				// Begin section to scan items
+				
+				BigDecimal total = reg.scanItems();
+				System.out.println("Total:\t$" + total);
+				
+				// End section to scan items
+				
+				
+				// Begin section to pay for purchase
+				
+				// Print the balance and offer payment options
+				System.out.println("Pay with Cash or Card");
+				genInput = buff.readLine();
+				
+				// Give the input from user to the Register object as long as the total isn't 0
+				while(!(total.compareTo(BigDecimal.ZERO)==0))
+				{
+					total = reg.payForCart(genInput, total);
+					while(reg.isOpen()) {
+						System.out.println("Close the drawer");
+					}
+				}
+				
+				// End section to pay for purchase
+
+				history.add(reg.saveTransaction());
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+			default:
 				continue;
+				
 			}
-			else {
-				continue;
-			}
-			
 		}
 	}
 }

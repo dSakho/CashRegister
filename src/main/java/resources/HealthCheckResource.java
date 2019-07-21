@@ -1,11 +1,11 @@
-package routes;
+package resources;
 
 import com.codahale.metrics.health.HealthCheck;
 
-public class HealthCheckRoute extends HealthCheck {
+public class HealthCheckResource extends HealthCheck {
     private final String template;
 
-    public HealthCheckRoute(String template) {
+    public HealthCheckResource(String template) {
         this.template = template;
     }
     @Override

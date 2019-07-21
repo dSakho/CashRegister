@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Register {
@@ -17,16 +20,18 @@ public class Register {
 	private BigDecimal registerTotal = new BigDecimal (0);
 	
 	// When the class is called the register's serial number should be available
-	private final String regID = new String("182010460");
+	private final String registerID = new String("182010460");
 	
 	// The user of the register will be included saved by the register
-	private String regUser = new String("");
+	private String registerUser = new String("");
 	
 	// Counter necessary to keep track of when the register is open
 	private boolean drawerState = false;
 	
 	// The total value of goods scanned
 	private BigDecimal purTotal = new BigDecimal(0);
+	
+	private int customerCounter = 0;
 	
 	// The constructor is going to need a valid USERID and total to begin with
 	public Register(String usrID) throws ClassNotFoundException, SQLException {
@@ -37,12 +42,12 @@ public class Register {
 	
 	// Call this method when first opening the register to insert change
 	 public void setNewRegisterTotal(BigDecimal money) {
-		registerTotal = this.registerTotal.add(money);
+		this.registerTotal = money;
 	}
 	
 	// Call this method when first opening the register to store the user
 	private void setUsername(String s) {
-		regUser = this.regID.concat(s);
+		registerUser = this.registerID.concat(s);
 	}
 	
 	private void setDrawerStateOpen() {
@@ -54,30 +59,63 @@ public class Register {
 	}	
 	
 	public String getRegID() {
-		return this.regID;
+		return this.registerID;
 	}
 	
 	public String getRegUser() {
-		return this.regUser;
+		return this.registerUser;
 	}
 	
 	public BigDecimal getRegTotal() {
 		return this.registerTotal;	
 	}
 	
-	private void payWithCash(BigDecimal balance, BigDecimal tender) {
-
-		// signum() returns the sign of the BigDecimal object
-		if(balance.signum() == -1 || tender.signum() == -1) {
-			System.out.println("Error: Incorrect Amount!");
+	public BigDecimal payForCart(String paymentOption, BigDecimal purchaseTotal) throws IOException {
+		
+		InputStreamReader reader = new InputStreamReader(System.in, StandardCharsets.UTF_8);
+		BufferedReader buff = new BufferedReader(reader);
+		
+		System.out.println("Tender Recieved:\t");
+		String input = new String(buff.readLine());
+		
+		// Check to make sure that the input is a valid dollar amount
+		while( !(input.matches("\\d+(?:.(\\d+))?")) ) {
+			input = buff.readLine();
 		}
-		else {
+		
+		BigDecimal tenderRec = new BigDecimal(input);
+		
+		if(tenderRec.compareTo(purchaseTotal) == 0) {
+			
 			setDrawerStateOpen();
-			registerTotal = registerTotal.add( (tender.subtract(balance)) );
-		} 
+			this.registerTotal = registerTotal.add(purchaseTotal);
+			
+			System.out.println("Change: $0");
+			setDrawerStateClosed();
+
+			return BigDecimal.ZERO;
+		}
+		else if(tenderRec.compareTo(purchaseTotal) == 1) {
+			
+			setDrawerStateOpen();
+			registerTotal = registerTotal.add(purchaseTotal);
+			
+			System.out.println("Change: $" + tenderRec.subtract(purchaseTotal));
+			setDrawerStateClosed();
+
+			return BigDecimal.ZERO;
+		}
+		else if(tenderRec.compareTo(purchaseTotal) == -1 && tenderRec.compareTo(BigDecimal.ZERO) > 0) {
+			setDrawerStateOpen();
+			System.out.println("Balance: " + purchaseTotal.subtract(tenderRec));
+			purchaseTotal = purchaseTotal.subtract(tenderRec);
+			setDrawerStateClosed();
+			return purchaseTotal;
+		}
+		else
+			return purchaseTotal;
 	}
-	
-	// Going to have the Register Class handle the input
+
 	public BigDecimal scanItems() throws IOException, SQLException {
 		
 		InputStreamReader reader = new InputStreamReader(System.in, StandardCharsets.UTF_8);
@@ -87,25 +125,23 @@ public class Register {
 		BigDecimal newItem = new BigDecimal(0);
 		
 		// Good enough for now, maybe change later
-		@SuppressWarnings("deprecation")
-		Boolean moreItems = new Boolean(true);
+		boolean moreItems = true;
 
 		while(moreItems) {
+			
 			System.out.println("Enter Item");
 			scanIn = buff.readLine();
 
 			if(scanIn.contentEquals("Done")) {
 				moreItems=false;
-				mainDatabase.closeConnection();
 			}
 			else if(scanIn.contentEquals("Cancel")) {
 				// Canceling a purchase should do more without failure 
 				moreItems=false;
-				mainDatabase.closeConnection();
+				purTotal = BigDecimal.ZERO;
 			}
 			// Checks if the input matches a string of digits 
-			else if(scanIn.matches("^[0-9]+$")){	
-				// Add a method in Database class to take the barcode string and return the price of the item
+			else if(scanIn.matches("^[0-9]+$")){
 				try {
 				newItem = mainDatabase.getPrice(scanIn);
 				} catch (SQLException sqlEx) {
@@ -119,35 +155,35 @@ public class Register {
 		return purTotal;
 	}
 	
-	
-	// Cash it will call the Private payWithCash() method
-	// Credit and Debit will 
-	public boolean payForPurchase(String meth) {
-		
-		switch(meth) {
-		
-		case ("Cash"):
-			BigDecimal tender = new BigDecimal(0);
-			
-			do {
-				// Read some input to get the tender
-				// Tender can never be less than the purchase price
-			} while((tender.subtract(purTotal)).signum() == -1);
-			
-			payWithCash(purTotal, tender);
-			setDrawerStateClosed();
-			break;
-		case ("Credit"):
-			break;
-		case ("Debit"):
-			break;
-		}
-		return true;
+	public void transactionHistory(String orderID) throws SQLException {
+		// Call a Database function to get the items from that order
+		mainDatabase.getOrderDetails(orderID);
 	}
-	
+
 	public boolean isOpen() {
 		return drawerState;
 	}
 	
-
+	public String saveTransaction() {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		
+		String orderID = new String();
+		
+		if(customerCounter >= 100) {
+		    orderID = (dateFormat.format(date) + (++customerCounter));
+		}
+		else if(customerCounter >= 10) {
+		    orderID = (dateFormat.format(date) + "0" + (++customerCounter));
+		}
+		else {
+		    orderID = (dateFormat.format(date) + "00" + (++customerCounter));
+		}
+		
+		// Do some stuff to add the transaction to the DB
+		mainDatabase.saveOrderDetails(orderID, "Dameka Dowdy", null, this.registerUser, purTotal);
+		
+		return orderID;	
+	}
 }
