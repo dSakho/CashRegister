@@ -57,7 +57,26 @@ public class Database {
 			row++;
 		}
 	}
-		
+	
+	public void saveOrderDetails(String orderID, String customerName, FoodItems shoppingCart, String cashier, BigDecimal totalCost) {
+	/**
+	 * Create a new table to save purchases to
+	 * Save a list of the name of each item as a String
+	 * Save a list of the corresponding price of each item as a list
+	 * 
+	 * Use another table with name, price, orderID
+	 * to search for specific items later
+	 * 
+	 * Table 1: OrderID, CustomerName, Cashier, PurchaseTotal, PurchaseDateTime
+	 *				^
+	 *				|
+	 *				v 
+	 * Table 2: OrderID, Name, Price
+	 * 
+	 * The OrderID fields in both represent the same information
+	 */
+	}
+	
 	public void closeConnection() throws SQLException {
 		if(con != null)
 			con.close();
