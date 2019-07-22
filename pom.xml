@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-jdbi3</artifactId>
-			<version>${dropwizard.version}</version>
+      <version>${dropwizard.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
