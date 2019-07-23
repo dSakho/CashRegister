@@ -1,7 +1,10 @@
 # CHANGELOG
 
-## 7/18/19:
-- 
+## 7/22/19:
+- Created `dao`, `dao.mapper` and `dao.entity` packages.
+- Created new classes for data access objects.
+- Implemented RowMapper interface to map result sets to POJO.
+- Created 4 new interfaces for CRUD implementation with database.
 
 ## 7/17/19:
 - Updated transaction stage in Application.java file to

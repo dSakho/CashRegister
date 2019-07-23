@@ -1,5 +1,6 @@
-package register;
+package dao.entity;
 import java.sql.*;
+import java.util.List;
 import java.math.BigDecimal;
 
 public class Database {
@@ -50,15 +51,15 @@ public class Database {
 				System.out.print(orderInfo.getString("Customer_Name") + "\t | "); // Print the name of customer
 				System.out.print(orderID + "\t | "); // Print the orderID
 				System.out.println(orderInfo.getString("Order_Date_Time")); // Print the date and time of the order
+				row++;
 			}
 			System.out.print((row+1) + ". "); // 
 			System.out.print(orderInfo.getString("Product_Name") + "\t |"); // Print Name of Item
 			System.out.println(orderInfo.getDouble("Price") + "\t |"); // Print the Price of the item
-			row++;
 		}
 	}
 	
-	public void saveOrderDetails(String orderID, String customerName, FoodItems shoppingCart, String cashier, BigDecimal totalCost) {
+	public void saveOrderDetails(String orderID, String customerName, List<Products> shoppingCart, String cashier, BigDecimal totalCost) {
 	/**
 	 * Create a new table to save purchases to
 	 * Save a list of the name of each item as a String
