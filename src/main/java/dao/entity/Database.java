@@ -1,9 +1,15 @@
 package dao.entity;
 import java.sql.*;
 import java.util.List;
+ 
+import dao.ProductDAO;
+import dao.RegisterSaleDAO;
+import dao.SoldDAO;
+import dao.TransactionsDAO;
+
 import java.math.BigDecimal;
 
-public class Database {
+public class Database implements RegisterSaleDAO, SoldDAO, TransactionsDAO, ProductDAO{
 	
 	// Fields that are use used to open the connection with these credentials
 	private String domain = new String("jdbc:mysql://localhost:3306/Supermarket");
@@ -59,7 +65,7 @@ public class Database {
 		}
 	}
 	
-	public void saveOrderDetails(String orderID, String customerName, List<Products> shoppingCart, String cashier, BigDecimal totalCost) {
+	public void saveOrderDetails(String orderID, String customerName, List<Product> shoppingCart, String cashier, BigDecimal totalCost) {
 	/**
 	 * Create a new table to save purchases to
 	 * Save a list of the name of each item as a String
@@ -81,6 +87,102 @@ public class Database {
 	public void closeConnection() throws SQLException {
 		if(con != null)
 			con.close();
+	}
+
+	@Override
+	public void addProduct(String productID, BigDecimal price, String name, String supplierID, boolean sale) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Product> getProducts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteProduct(String productID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveTransaction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Transaction> getAllTransactions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Transaction getTransaction(String orderID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteTransaction(String orderID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveProductSalet(String productID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Product> getListOfProducts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> getProductSaleHistory(String productID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Transaction> getAllOrdersThatPurchasedItem(String productID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveRegisterEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Transaction> getAlTransactionsOnRegister() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteEntry(String regID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Product getProductByID(String productID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateProduct(BigDecimal price, String name, String supplierID, boolean sale, String productID) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 
-import dao.entity.Products;
+import dao.entity.Product;
 
-public class FoodMapper implements RowMapper<Products> {
+public class ProductMapper implements RowMapper<Product> {
 
 	public String productIdentifier;
 	public Double price;
@@ -17,8 +17,8 @@ public class FoodMapper implements RowMapper<Products> {
 	public boolean onSale;
 	
 	@Override
-	public Products map(ResultSet rs, StatementContext ctx) throws SQLException {
-		return new Products(rs.getString("Serial_Number"), rs.getBigDecimal("Price"), rs.getString("Product_Name"), rs.getString("Supplier"), rs.getBoolean("On_Sale"));
+	public Product map(ResultSet rs, StatementContext ctx) throws SQLException {
+		return new Product(rs.getString("Serial Number"), rs.getBigDecimal("Price"), rs.getString("Product Name"), rs.getString("Supplier"), rs.getBoolean("Sale"));
 	}
 }
 	  			

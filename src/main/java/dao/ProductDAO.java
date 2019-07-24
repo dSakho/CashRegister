@@ -3,29 +3,37 @@ package dao;
 import java.math.BigDecimal;
 import java.util.List;
 
-import dao.entity.Products;
+import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+
+import dao.entity.Product;
 
 public interface ProductDAO {
 	
+	// Get all items in the inventory
+	@SqlQuery("SELECT `Serial Number`, Price, `Product Name`, Supplier, Sale FROM Food")
+	@RegisterBeanMapper(Product.class)
+	List<Product> getProducts();
+	
+	@SqlQuery("SELECT Serial Number, Price, Product Name, Supplier, Sale FROM Food WHERE Serial Number=?")
+	Product getProductByID(String productID);
+	
 	// Add new product to the database
+	@SqlUpdate("INSERT INTO Food (Serial Number, Price, Product Name, Supplier, Sale) values (?,?,?,?,?)")
 	void addProduct(String productID, BigDecimal price,
 			String name,
 			String supplierID,
 			boolean sale);
-
-	// Get Price of a product
-	BigDecimal getProductPrice(String productID);
 	
-	// Get all items in the inventory
-	List<Products> getProductInventory();
-	
-	// Put an item on sale
-	void putItemOnSale(String productID);
-	void takeItemOffSale(String productID);
-	
-	// Change the price of an item
-	void updateProductPrice(String productID, BigDecimal newPrice);
+	// Update product
+	@SqlUpdate("UPDATE Food SET Price=?, Product Name=?, Supplier=?, Sale=? WHERE Serial Number=?")
+	void updateProduct(BigDecimal price,
+			String name,
+			String supplierID,
+			boolean sale, String productID);
 	
 	// Delete a product from inventory
+	@SqlUpdate("DELETE FROM Food WHERE Serial Number=?")
 	void deleteProduct(String productID);
 }
