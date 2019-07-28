@@ -12,7 +12,7 @@ public class TransactionMapper implements RowMapper<Transaction> {
 
 	@Override
 	public Transaction map(ResultSet rs, StatementContext ctx) throws SQLException {
-		return new Transaction(rs.getBigDecimal("Transaction_Total"), rs.getString("Customer_ID"), rs.getString("Order_ID"), rs.getDate("Order_Date_Time"));
+		return new Transaction(rs.getInt("Transaction_Total"), rs.getString("Customer_ID"), rs.getString("Order_ID"), rs.getString("Order_Date_Time"), rs.getBigDecimal("Price"));
 	}
 
 }

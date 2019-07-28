@@ -16,24 +16,24 @@ public interface ProductDAO {
 	@RegisterBeanMapper(Product.class)
 	List<Product> getProducts();
 	
-	@SqlQuery("SELECT Serial Number, Price, Product Name, Supplier, Sale FROM Food WHERE Serial Number=?")
+	@SqlQuery("SELECT `Serial Number`, Price, `Product Name`, Supplier, Sale FROM Food WHERE `Serial Number` = ?")
 	Product getProductByID(String productID);
 	
 	// Add new product to the database
-	@SqlUpdate("INSERT INTO Food (Serial Number, Price, Product Name, Supplier, Sale) values (?,?,?,?,?)")
-	void addProduct(String productID, BigDecimal price,
+	@SqlUpdate("INSERT INTO Food (`Serial Number`, Price, `Product Name`, Supplier, Sale) VALUES (?,?,?,?,?)")
+	int addProduct(String productID, BigDecimal price,
 			String name,
 			String supplierID,
 			boolean sale);
 	
 	// Update product
-	@SqlUpdate("UPDATE Food SET Price=?, Product Name=?, Supplier=?, Sale=? WHERE Serial Number=?")
-	void updateProduct(BigDecimal price,
+	@SqlUpdate("UPDATE Food SET Price = ?, `Product Name` = ?, Supplier = ?, Sale = ? WHERE `Serial Number` = ?")
+	int updateProduct(BigDecimal price,
 			String name,
 			String supplierID,
 			boolean sale, String productID);
 	
 	// Delete a product from inventory
-	@SqlUpdate("DELETE FROM Food WHERE Serial Number=?")
-	void deleteProduct(String productID);
+	@SqlUpdate("DELETE FROM Food WHERE `Serial Number` = ?")
+	int deleteProduct(String productID);
 }
