@@ -2,9 +2,9 @@ package dao.entity;
 import java.sql.*;
 import java.util.List;
  
-import dao.ProductDAO;
-import dao.RegisterSaleDAO;
-import dao.SoldDAO;
+import dao.ProductsDAO;
+import dao.CustomersDAO;
+import dao.SalesDAO;
 import dao.TransactionsDAO;
 
 import java.math.BigDecimal;
