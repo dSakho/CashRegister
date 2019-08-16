@@ -9,4 +9,5 @@ database:
   password: Winner23
   
   # the JDBC URL
-  url: jdbc:mysql://localhost:3306/Supermarket
+  url: jdbc:mysql://localhost:3306/Supermarket?serverTimezone=America/New_York&useSSL=false
+  

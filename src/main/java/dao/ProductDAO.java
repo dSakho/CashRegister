@@ -17,6 +17,7 @@ public interface ProductDAO {
 	List<Product> getProducts();
 	
 	@SqlQuery("SELECT `Serial Number`, Price, `Product Name`, Supplier, Sale FROM Food WHERE `Serial Number` = ?")
+	@RegisterBeanMapper(Product.class)
 	Product getProductByID(String productID);
 	
 	// Add new product to the database

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 
-public class DatabaseConfiguration extends Configuration {    
+public class ServerConfiguration extends Configuration {    
     @Valid
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
