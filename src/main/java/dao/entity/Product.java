@@ -1,72 +1,83 @@
 package dao.entity;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 public class Product {
 
+	private String id;
+	private String name;
+	private BigDecimal price;
+	private int supplier_ID;
+	private boolean onSale;
+	private Date date_added;
+	
 	public Product() {
 	}
 
-	public Product(String string, BigDecimal bigDecimal, String string2, String string3, boolean boolean1) {
-		productIdentifier = string;
-		price = bigDecimal;
-		productName = string2;
-		productSupplier = string3;
-		onSale = boolean1;
+	public Product(String id, String name, BigDecimal price, int supplier_ID, boolean onSale, Date date_added) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.supplier_ID = supplier_ID;
+		this.onSale = onSale;
+		this.date_added = date_added;
 	}
 
-	private String productIdentifier;
-	private BigDecimal price;
-	private String productName;
-	private String productSupplier;
-	private boolean onSale;
-
-
-	@ColumnName("Serial Number")
-	public String getProductIdentifier() {
-		return productIdentifier;
+	@ColumnName("id")
+	public String getId() {
+		return id;
+	}
+	
+	@ColumnName("name")
+	public String getName() {
+		return name;
 	}
 
-	public void setProductIdentifier(String productIdentifier) {
-		this.productIdentifier = productIdentifier;
-	}
-
-	@ColumnName("Price")
+	@ColumnName("price")
 	public BigDecimal getPrice() {
 		return price;
+	}
+
+	@ColumnName("supplier_id")
+	public int getSupplier_ID() {
+		return supplier_ID;
+	}
+
+	@ColumnName("on_sale")
+	public boolean isOnSale() {
+		return onSale;
+	}
+
+	@ColumnName("date_added")
+	public Date getDate_added() {
+		return date_added;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
-	@ColumnName("Product Name")
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	@ColumnName("Supplier")
-	public String getProductSupplier() {
-		return productSupplier;
-	}
-
-	public void setProductSupplier(String productSupplier) {
-		this.productSupplier = productSupplier;
-	}
-
-	@ColumnName("Sale")
-	public boolean isOnSale() {
-		return onSale;
+	public void setSupplier_ID(int supplier_ID) {
+		this.supplier_ID = supplier_ID;
 	}
 
 	public void setOnSale(boolean onSale) {
 		this.onSale = onSale;
+	}
+
+	public void setDate_added(Date date_added) {
+		this.date_added = date_added;
 	}
 
 }

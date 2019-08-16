@@ -9,16 +9,15 @@ import org.jdbi.v3.core.statement.StatementContext;
 import dao.entity.Product;
 
 public class ProductMapper implements RowMapper<Product> {
-
-	public String productIdentifier;
-	public Double price;
-	public String productName;
-	public String productSupplier;
-	public boolean onSale;
 	
 	@Override
 	public Product map(ResultSet rs, StatementContext ctx) throws SQLException {
-		return new Product(rs.getString("Serial Number"), rs.getBigDecimal("Price"), rs.getString("Product Name"), rs.getString("Supplier"), rs.getBoolean("Sale"));
+		return new Product(rs.getString("id"),
+				rs.getString("name"),
+				rs.getBigDecimal("price"),
+				rs.getInt("supplier_id"),
+				rs.getBoolean("on_sale"),
+				rs.getDate("date_added"));
 	}
 }
 	  			

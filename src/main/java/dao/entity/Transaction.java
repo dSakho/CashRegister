@@ -3,68 +3,57 @@ package dao.entity;
 import java.math.BigDecimal;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
+import org.joda.time.DateTime;
 
 public class Transaction {
-	
-	private int total;
-	private String customerID;
-	private String orderID;
-	private String orderDateTime;
-	private BigDecimal price;
-	
-	public Transaction(int total, String customerID, String orderID, String orderDateTime, BigDecimal price) {
+
+	private String id;
+	private BigDecimal total;
+	private int customer_ID;
+	private String transaction_date;
+
+	public Transaction(String id, BigDecimal total, int customer_ID, String transaction_date) {
+		this.id = id;
 		this.total = total;
-		this.customerID = customerID;
-		this.orderID = orderID;
-		this.orderDateTime = orderDateTime;
-		this.price = price;
+		this.customer_ID = customer_ID;
+		this.transaction_date = transaction_date;
 	}
 
-
-	@ColumnName("Transaction_Total")
-	public int getTotal() {
+	@ColumnName("id")
+	public String getId() {
+		return id;
+	}
+	
+	@ColumnName("total")
+	public BigDecimal getTotal() {
 		return total;
 	}
 
-	public void setTotal(int total) {
+	@ColumnName("customer_ID")
+	public int getCustomer_ID() {
+		return customer_ID;
+	}
+
+	@ColumnName("transaction_date")
+	public String getTransaction_date() {
+		return transaction_date;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 
-	@ColumnName("Customer_Name")
-	public String getCustomerID() {
-		return customerID;
+	public void setCustomer_ID(int customer_ID) {
+		this.customer_ID = customer_ID;
 	}
 
-	public void setCustomerID(String customerID) {
-		this.customerID = customerID;
+	public void setTransaction_date(String transaction_date) {
+		this.transaction_date = transaction_date;
 	}
-
-	@ColumnName("Order_ID")
-	public String getOrderID() {
-		return orderID;
-	}
-
-	public void setOrderID(String orderID) {
-		this.orderID = orderID;
-	}
-
-	@ColumnName("Order_Date_Time")
-	public String getOrderDateTime() {
-		return orderDateTime;
-	}
-
-	public void setOrderDateTime(String orderDateTime) {
-		this.orderDateTime = orderDateTime;
-	}
-
-	@ColumnName("Price")
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
+	
+	
 }
