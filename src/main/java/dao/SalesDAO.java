@@ -11,19 +11,21 @@ import dao.mapper.SaleMapper;
 
 public interface SalesDAO {
 
+	// Save a product sale
 	@SqlUpdate("INSERT INTO Sales (order_ID, pos_ID, pid) VALUES (?, ?, ?)")
-	int saveProductSale(String productID, String price, String proName);
+	int saveProductSale(String order_id, String pointOfSale, String product_ID);
 	
+	// Get the history of every product sold for each transaction
 	@SqlQuery("SELECT order_ID, pos_ID, pid FROM Sales")
 	@RegisterRowMapper(SaleMapper.class)
-	List<Sale> getListOfSoldProducts();
+	List<Sale> getListOfSales();
 	
-	@SqlQuery("SELECT order_ID, pos_ID, pid FROM Sales WHERE order_ID = ? LIMIT 1")
-	@RegisterRowMapper(SaleMapper.class)
-	Sale getProductSaleHistoryByOrderID(String order_ID);
+	// Get the history of every product sold for a specific transaction (the receipt)
+	@SqlQuery("SELECT pid FROM Sales WHERE order_ID = ?")
+	List<String> getProductsSoldHistoryByOrderID(String order_ID);
 	
-	@SqlUpdate("UPDATE Sales SET Order_ID = \"RETURNED\" WHERE Order_ID = ? LIMIT 1")
-	int returnedItem(String order_ID);
+	@SqlUpdate("UPDATE Sales SET order_ID = \"RETURNED\" WHERE order_ID = ? AND pid = ? LIMIT 1")
+	int returnedItem(String order_ID, String pid);
 	
 	@SqlUpdate("DELETE FROM Sales WHERE order_ID = ?")
 	int deleteHistory(String orderID);

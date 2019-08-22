@@ -1,7 +1,6 @@
 package dao.entity;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
@@ -12,12 +11,12 @@ public class Product {
 	private BigDecimal price;
 	private int supplier_ID;
 	private boolean onSale;
-	private Date date_added;
+	private String date_added;
 	
 	public Product() {
 	}
 
-	public Product(String id, String name, BigDecimal price, int supplier_ID, boolean onSale, Date date_added) {
+	public Product(String id, String name, BigDecimal price, int supplier_ID, boolean onSale, String date_added) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -46,13 +45,13 @@ public class Product {
 		return supplier_ID;
 	}
 
-	@ColumnName("on_sale")
+	@ColumnName("onSale")
 	public boolean isOnSale() {
 		return onSale;
 	}
 
 	@ColumnName("date_added")
-	public Date getDate_added() {
+	public String getDate_added() {
 		return date_added;
 	}
 
@@ -76,7 +75,7 @@ public class Product {
 		this.onSale = onSale;
 	}
 
-	public void setDate_added(Date date_added) {
+	public void setDate_added(String date_added) {
 		this.date_added = date_added;
 	}
 

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,7 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import dao.ProductDAO;
+import dao.ProductsDAO;
 import dao.entity.Product;
 import service.products.ProductService;
 import service.products.ProductServiceImpl;
@@ -23,7 +22,7 @@ import service.products.ProductServiceImpl;
 public class ProductServiceImplTest {
 
 	@Mock
-	private ProductDAO productDao;
+	private ProductsDAO productDao;
 	
 	@Test
 	public void TestScanAndGetProduct() {
@@ -55,15 +54,15 @@ public class ProductServiceImplTest {
 		mockedList.add(new Product());
 		
 		mockedList.get(0).setOnSale(true);
-		mockedList.get(1).setProductName("Cabbage");
+		mockedList.get(1).setName("Cabbage");
 		
-		when(productDao.getProducts()).thenReturn(mockedList);
+		when(productDao.getAllProducts()).thenReturn(mockedList);
 		
 		ProductService service = new ProductServiceImpl(productDao);
 		final List<Product> products = service.getProducts();
 
 		assertThat(products).isNotNull();
-		assertThat(products.get(1).getProductName()).isEqualToIgnoringWhitespace("Cabbage");
+		assertThat(products.get(1).getName()).isEqualToIgnoringWhitespace("Cabbage");
 		assertThat(products.get(0).isOnSale()).isEqualTo(true);
 		
 	}
@@ -74,9 +73,9 @@ public class ProductServiceImplTest {
 		Product productMock = mock(Product.class);
 		productMock.setPrice(new BigDecimal(26.25));
 		productMock.setOnSale(true);
-		productMock.setProductIdentifier("3452");
-		productMock.setProductName("Beans");
-		productMock.setProductSupplier("Beans and Co.");
+		productMock.setId("3452");
+		productMock.setName("Beans");
+		productMock.setSupplier_ID(1232);
 		
 		when(productDao.getProductByID("3452")).thenReturn(productMock);
 		when(productDao.addProduct(any(), any(), any(), any(), any())).thenReturn(1);
@@ -94,9 +93,9 @@ public class ProductServiceImplTest {
 		Product productMock = mock(Product.class);
 		productMock.setPrice(new BigDecimal(26.25));
 		productMock.setOnSale(true);
-		productMock.setProductIdentifier("3452");
-		productMock.setProductName("Beans");
-		productMock.setProductSupplier("Beans and Co.");
+		productMock.setSupplier_ID(3452);
+		productMock.setName("Beans");
+		productMock.setSupplier_ID(90666);
 		
 		when(productDao.getProductByID(any())).thenReturn(productMock);
 		when(productDao.updateProduct(any(), any(), any(), any(), any())).thenReturn(1);

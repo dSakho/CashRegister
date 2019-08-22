@@ -1,13 +1,13 @@
 package resources;
 
 import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -35,18 +35,31 @@ public class ProductResource {
 		this.productService = productService;
 	}
 	
-	
 	@GET
-	public Response FetchAllProducts(@QueryParam("supplier") String supplier, @QueryParam("on_sale") boolean getProductsOnSale) {
+	public Response FetchAllProducts(@QueryParam("supplier") OptionalInt supplier, @QueryParam("on_sale") Optional<Boolean> getProductsOnSale) {
 		
 		List<Product> products = this.productService.getProducts();
 		
 		if(products != null) {	
 
-			if(getProductsOnSale == true) {
+			if(getProductsOnSale.isPresent() && supplier.isPresent()) {
 				
 				List<Product> productsOnSale =
-						products.stream().filter(p->p.isOnSale()).collect(Collectors.toList());
+						products.stream().filter(p->p.isOnSale()==getProductsOnSale.get()).collect(Collectors.toList());
+				
+				List<Product> productsWithSaleStatusFromSupplier =
+						productsOnSale.stream().filter(p->p.getSupplier_ID()==supplier.getAsInt()).collect(Collectors.toList());
+				
+				return Response
+						.status(Status.OK)
+						.entity(productsWithSaleStatusFromSupplier)
+						.build();
+			}
+			
+			else if(getProductsOnSale.isPresent()) {
+				
+				List<Product> productsOnSale =
+						products.stream().filter(p->p.isOnSale()==getProductsOnSale.get()).collect(Collectors.toList());
 			
 			return Response
 					.status(Status.OK)
@@ -54,9 +67,9 @@ public class ProductResource {
 					.build();
 			}
 			
-			if(supplier != null) {
+			else if(supplier.isPresent()) {
 				List<Product> productsFromSupplier =
-						products.stream().filter(p->p.getProductSupplier().equalsIgnoreCase(supplier)).collect(Collectors.toList());
+						products.stream().filter(p->p.getSupplier_ID()==supplier.getAsInt()).collect(Collectors.toList());
 				
 				return Response
 						.status(Status.OK)
@@ -100,16 +113,17 @@ public class ProductResource {
 	public Response postProduct(Product product) {
 		
 		BigDecimal productPrice = product.getPrice();
-		String productName = product.getProductName();
-		String productPID = product.getProductIdentifier();
-		String productSupplier = product.getProductSupplier();
+		String productName = product.getName();
+		String productPID = product.getId();
+		int productSupplier = product.getSupplier_ID();
 		boolean productOnSale = product.isOnSale();
+		String date_added = product.getDate_added();
 		
 		if(this.productService.scanAndGetProduct(productPID) != null) {
 			throw new WebApplicationException(Status.BAD_REQUEST);
 		}
 		
-		final int count = this.productService.createProduct(productPrice, productName, productSupplier, productOnSale, productPID);
+		final int count = this.productService.createProduct(productPrice, productName, productSupplier, productOnSale, productPID, date_added);
 		
 		if(count == 1) {
 			return Response
@@ -125,8 +139,8 @@ public class ProductResource {
 	public Response updateProduct(@PathParam("id") String productPID, Product product){
 		
 		BigDecimal productPrice = product.getPrice();
-		String productName = product.getProductName();
-		String productSupplier = product.getProductSupplier();
+		String productName = product.getName();
+		int productSupplier = product.getSupplier_ID();
 		boolean productOnSale = product.isOnSale();
 		
 		Product originalProduct = this.productService.scanAndGetProduct(productPID);

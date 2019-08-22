@@ -13,8 +13,8 @@ import dao.mapper.ProductMapper;
 public interface ProductsDAO {
 	
 	// Add new product to the database
-	@SqlUpdate("INSERT INTO Products (id, name, price, supplier_ID, onSale, date_added) VALUES (?,?,?,?,?, CURRENT_TIMESTAMP()")
-	int addProduct(String productID, String name, BigDecimal price, int supplierID, boolean sale);
+	@SqlUpdate("INSERT INTO Products (id, name, price, supplier_ID, onSale, date_added) VALUES (?,?,?,?,?,?)")
+	int addProduct(String productID, String name, BigDecimal price, int supplierID, boolean sale, String date);
 	
 	// Get all items in the inventory
 	@SqlQuery("SELECT id, name, price, supplier_ID, onSale, date_added FROM Products")
@@ -27,9 +27,9 @@ public interface ProductsDAO {
 	
 	// Update product
 	@SqlUpdate("UPDATE Products SET name = ?, price = ?, supplier_ID = ?, onSale = ? WHERE id = ?")
-	int updateProduct(String name, BigDecimal newPrice, String supplierID, boolean isSale, String productID);
+	int updateProduct(String name, BigDecimal newPrice, int supplierID, boolean isSale, String productID);
 	
 	// Delete a product from inventory
-	@SqlUpdate("DELETE FROM Food Products WHERE id = ?")
+	@SqlUpdate("DELETE FROM Products WHERE id = ?")
 	int deleteProduct(String productID);
 }

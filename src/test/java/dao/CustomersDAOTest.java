@@ -37,7 +37,7 @@ public class CustomersDAOTest {
 		int customerAdded = jdbi.withExtension(CustomersDAO.class, dao -> dao.saveNewCustomerInfo("Phillip"));
 		assertThat(customerAdded).isEqualTo(1);
 		
-		Customer customer = jdbi.withExtension(CustomersDAO.class, dao -> dao.getCustomerById(4));
+		Customer customer = jdbi.withExtension(CustomersDAO.class, dao -> dao.getCustomerById(5));
 		assertThat(customer.getName()).isEqualToIgnoringWhitespace("Phillip");
 	}
 	
@@ -70,7 +70,14 @@ public class CustomersDAOTest {
 	
 	@Test
 	public void updateCustomerNameTest() {
+		Customer customer = jdbi.withExtension(CustomersDAO.class, dao -> dao.getCustomerById(2));
+		assertThat(customer.getName()).isEqualToIgnoringNewLines("Dominick");
 		
+		int updatedCustomers = jdbi.withExtension(CustomersDAO.class, dao -> dao.updateCustomerName("Rodrick", 2));
+		assertThat(updatedCustomers).isEqualTo(1);
+		
+		Customer customer2 = jdbi.withExtension(CustomersDAO.class, dao -> dao.getCustomerById(2));
+		assertThat(customer2.getName()).isEqualToIgnoringNewLines("Rodrick");
 	}
 	
 	@Test

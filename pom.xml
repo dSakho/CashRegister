@@ -57,11 +57,24 @@
 			<version>3.11.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-auth</artifactId>
+            <version>${dropwizard.version}</version>
+        </dependency>
 	</dependencies>
-
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>5.2.4</version>
+					<configuration>
+						<user>root</user>
+						<password>Winner23</password>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
