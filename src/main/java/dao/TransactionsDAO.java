@@ -13,16 +13,16 @@ import dao.mapper.TransactionMapper;
 public interface TransactionsDAO {
 	
 	// Create new transaction entry
-	@SqlUpdate("INSERT INTO Transactions (id, transaction_date, total, customer_ID) VALUES (?, ?, ?, ?)")
+	@SqlUpdate("INSERT INTO Transactions (id, date, total, customer_ID) VALUES (?, ?, ?, ?)")
 	int saveTransaction(String id, String date, BigDecimal total, int customerID);
 	
 	// See all transactions
-	@SqlQuery("SELECT id, total, customer_ID, transaction_date FROM Transactions")
+	@SqlQuery("SELECT id, total, customer_ID, date FROM Transactions")
 	@RegisterRowMapper(TransactionMapper.class)
 	List<Transaction> getAllTransactions();
 	
 	// Search for a specific transaction based on orderID
-	@SqlQuery("SELECT id, total, customer_ID, transaction_date FROM Transactions WHERE id = ?")
+	@SqlQuery("SELECT id, total, customer_ID, date FROM Transactions WHERE id = ?")
 	@RegisterRowMapper(TransactionMapper.class)
 	Transaction getTransaction(String id);
 	
@@ -30,7 +30,7 @@ public interface TransactionsDAO {
 	int updateTransactionHistory(BigDecimal total, String id);
 	
 	// Delete a transaction
-	@SqlUpdate("DELETE FROM Transaction WHERE id = ?")
+	@SqlUpdate("DELETE FROM Transactions WHERE id = ?")
 	int deleteTransaction(String orderID);
 	
 	}

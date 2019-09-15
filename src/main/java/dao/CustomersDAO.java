@@ -19,7 +19,7 @@ public interface CustomersDAO {
 	@RegisterRowMapper(CustomerMapper.class)
 	List<Customer> getAllCustomers();
 	
-	@SqlQuery("SELECT id, name WHERE id = ?")
+	@SqlQuery("SELECT id, name FROM Customers WHERE id = ?")
 	@RegisterRowMapper(CustomerMapper.class)
 	Customer getCustomerById(int id);
 	

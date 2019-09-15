@@ -34,7 +34,7 @@ public class Transaction {
 		return customer_ID;
 	}
 
-	@ColumnName("transaction_date")
+	@ColumnName("date")
 	public String getTransaction_date() {
 		return transaction_date;
 	}

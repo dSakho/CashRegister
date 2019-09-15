@@ -30,21 +30,21 @@ public class TransactionsDAOTest {
 			handle.execute("INSERT INTO Transactions VALUES ('20190729011', '2018-08-28 12:07:16', 1199.89, 1)");
 			handle.execute("INSERT INTO Transactions VALUES ('20190729099', '2017-09-22 13:07:16', 9.0, 22)");
 		});
-		
 	}
 	
 	@Test
 	public void saveTransaction() {
 		int transactionsAdded = jdbi.withExtension(
-				TransactionsDAO.class, dao -> dao.saveTransaction("20190729100", "CURRENT_TIMESTAMP()", new BigDecimal(659.87), 5));
-		
+				
+		TransactionsDAO.class, dao -> dao.saveTransaction("20190729100", "CURRENT_TIMESTAMP()", new BigDecimal(659.87), 5));
 		assertThat(transactionsAdded).isEqualTo(1);
+		
 	}
 	
 	@Test
 	public void getAllTransactionsTest() {
-		List<Transaction> listOfTransactions = jdbi.withExtension(TransactionsDAO.class, dao -> dao.getAllTransactions());
 		
+		List<Transaction> listOfTransactions = jdbi.withExtension(TransactionsDAO.class, dao -> dao.getAllTransactions());
 		assertThat(listOfTransactions).isNotNull();
 	}
 	

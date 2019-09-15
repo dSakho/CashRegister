@@ -6,7 +6,7 @@ package service.products;
 import java.math.BigDecimal;
 import java.util.List;
 
-import dao.ProductDAO;
+import dao.ProductsDAO;
 import dao.entity.Product;
 
 /**
@@ -16,19 +16,19 @@ import dao.entity.Product;
  */
 public final class ProductServiceImpl implements ProductService {
 
-	private ProductDAO productDao;
+	private ProductsDAO productDao;
 	
 	/**
 	 * @param productDao
 	 */
-	public ProductServiceImpl(ProductDAO productDao) {
+	public ProductServiceImpl(ProductsDAO productDao) {
 		super();
 		this.productDao = productDao;
 	}
 
 	@Override
 	public List<Product> getProducts() {
-		return this.productDao.getProducts();
+		return this.productDao.getAllProducts();
 		
 	}
 
@@ -42,9 +42,9 @@ public final class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int createProduct(BigDecimal price, String name, String supplierID, boolean sale, String productID) {
-		
-		int count = this.productDao.addProduct(productID, price, name, supplierID, sale);
+	public int createProduct(BigDecimal price, String name, int supplierID, boolean sale, String productID, String date_added) {
+
+		int count = this.productDao.addProduct(productID, name, price, supplierID, sale, date_added);
 		if(count == 1) {
 			return count;
 		}
@@ -52,8 +52,8 @@ public final class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int updateProduct(BigDecimal price, String name, String supplierID, boolean sale, String productID) {
-		int count = this.productDao.updateProduct(price, name, supplierID, sale, productID);
+	public int updateProduct(BigDecimal price, String name, int supplierID, boolean sale, String productID) {
+		int count = this.productDao.updateProduct(name, price, supplierID, sale, productID);
 		if(count == 1) {
 			return count;
 		}

@@ -11,9 +11,9 @@ public interface ProductService {
 	
 	public List<Product> getProducts();
 	
-	public int createProduct(BigDecimal price, String name, String supplierID, boolean sale, String productID);
+	public int createProduct(BigDecimal price, String name, int supplierID, boolean sale, String productID, String date_added);
 	
-	public int updateProduct(BigDecimal price, String name, String supplierID, boolean sale, String productID);
+	public int updateProduct(BigDecimal price, String name, int supplierID, boolean sale, String productID);
 	
 	public int deleteProduct(String pid);
 }

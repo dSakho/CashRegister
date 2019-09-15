@@ -83,9 +83,9 @@ public class SalesDAOTest {
 		assertThat(selectSale.getProductID()).isEqualToIgnoringNewLines("321");
 		
 		int returnedCount = jdbi.withExtension(SalesDAO.class, dao -> dao.returnedItem("20190729002"));
-		selectSale = jdbi.withExtension(SalesDAO.class, dao -> dao.getProductSaleHistoryByOrderID("20190729002"));
+		Sale checkSale = jdbi.withExtension(SalesDAO.class, dao -> dao.getProductSaleHistoryByOrderID("20190729002"));
 		
-		assertThat(selectSale).isNull();
+		assertThat(checkSale).isNull();
 		assertThat(returnedCount).isEqualTo(1);
 		
 		
